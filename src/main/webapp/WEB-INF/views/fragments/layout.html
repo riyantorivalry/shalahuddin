@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+</head>
+<body>
+
+	<!-- Header -->
+	<div class="navbar navbar-default navbar-fixed-top"
+		th:fragment="header">
+		<div class="container">
+			<div class="navbar-header">
+				<!--         	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> -->
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Jama'ah Shalahuddin</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li th:classappend="${module == 'home' ? 'active' : ''}"><a
+						href="#" th:href="@{/}"><span class="glyphicon glyphicon-home"
+							aria-hidden="true"></span>&nbsp;Home</a></li>
+					<li th:classappend="${module == 'penceramah' ? 'active' : ''}"
+						class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Penceramah<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/penceramah/listPenceramah}">Daftar Penceramah</a></li>
+							<li><a href="#" th:href="@{/penceramah/addPenceramah}">Form Penceramah</a></li>
+						</ul></li>
+					<li th:classappend="${module == 'training' ? 'active' : ''}"
+						class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Pengurus<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/training/list}">List</a></li>
+							<li><a href="#" th:href="@{/training/add}">Form</a></li>
+						</ul></li>
+					<li th:classappend="${module == 'anggota' ? 'active' : ''}"
+						class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Anggota<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/anggota/listAnggota}">Daftar Anggota</a></li>
+							<li><a href="#" th:href="@{/anggota/addAnggota}">Form Anggota</a></li>
+						</ul></li>
+					<li th:classappend="${module == 'pesertaTraining' ? 'active' : ''}"
+						class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Agenda<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/pesertaTraining/listPeserta}">List Peserta</a></li>
+							<li><a href="#" th:href="@{/pesertaTraining/addPeserta}">Form Peserta</a></li>
+						</ul></li>
+					<li th:classappend="${module == 'pesertaTraining' ? 'active' : ''}"
+						class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Alumni<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/pesertaTraining/listPeserta}">List Peserta</a></li>
+							<li><a href="#" th:href="@{/pesertaTraining/addPeserta}">Form Peserta</a></li>
+						</ul></li>
+					<li th:classappend="${module == 'usermgmt' ? 'active' : ''}"
+						class="dropdown"
+						th:if="${session.MENU_AUTHORITIES != null && #sets.contains(session.MENU_AUTHORITIES, 'MENU_USR_MGMT')}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false">Management<span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li
+								th:if="${session.MENU_AUTHORITIES != null && #sets.contains(session.MENU_AUTHORITIES, 'SUBMENU_USER')}"><a
+								href="#" th:href="@{/account}">User</a></li>
+							<li
+								th:if="${session.MENU_AUTHORITIES != null && #sets.contains(session.MENU_AUTHORITIES, 'SUBMENU_ROLE')}"><a
+								href="#" th:href="@{/role}">Role</a></li>
+						</ul>
+					</li>
+					<li th:classappend="${module == 'upload' ? 'active' : ''}"
+						class="dropdown"
+						th:if="${session.MENU_AUTHORITIES != null && #sets.contains(session.MENU_AUTHORITIES, 'MENU_EXAMPLE')}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false">Example<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/upload}"
+								th:if="${session.MENU_AUTHORITIES != null && #sets.contains(session.MENU_AUTHORITIES, 'SUBMENU_UPLOAD')}">Upload
+									File</a></li>
+						</ul>
+					</li>
+					<li th:classappend="${module == 'about' ? 'active' : ''}"
+						th:if="${session.MENU_AUTHORITIES != null && #sets.contains(session.MENU_AUTHORITIES, 'MENU_ABOUT')}">
+						<a href="#about" th:href="@{/about}">About</a>
+					</li>
+					<!-- module? yang ada di method dg @ModelAttribute("module") di controller? -->
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li
+						th:if="${#authentication != null && #authorization.expression('!isAuthenticated()')}">
+						<a href="/signin" th:href="@{/signin}"> <span
+							class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign
+							in
+					</a>
+					</li>
+					<li class="dropdown"
+						th:if="${#authentication != null && #authorization.expression('isAuthenticated()')}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+						role="button" aria-haspopup="true" aria-expanded="false"><span
+							th:text="#{message.signin(${#authentication.name})}">Welcome
+								Foo</span> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/logout" th:href="@{#}"
+								onclick="$('#logoutForm').submit();"> <!-- 							<a href="/logout" th:href="@{/logout}"> -->
+									<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+							</a></li>
+						</ul>
+
+						<form style="visibility: hidden" id="logoutForm" method="post"
+							action="#" th:action="@{/logout}"></form>
+					</li>
+					<li><a href="#"
+						th:href="${#httpServletRequest.requestURI} +'?lang=en'"
+						th:if="__${#locale}__=='in_ID'">English</a> <a href="#"
+						th:href="${#httpServletRequest.requestURI} +'?lang=in_ID'"
+						th:if="__${#locale}__=='en'">Bahasa Indonesia</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<!-- <div th:fragment="footer" th:align="center">
+    &copy;&nbsp;<span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2016</span>
+    Demo project <span th:text="${@environment.getProperty('app.version')}"></span>
+</div> -->
+
+	<footer class="footer text-muted" th:fragment="footer">
+		<div class="container">
+			<span th:utext="#{footer.copyright}">PT. IT Solutions</span> - <span
+				th:utext="#{footer.appName}">MyApp</span> - <span
+				th:text="${@environment.getProperty('app.version')}">1.0.0</span>
+		</div>
+	</footer>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">        
+    <link rel="shortcut icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+    
+    <title>Upload File Example</title>    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />    
+</head>
+<body>
+	<div th:replace="fragments/layout :: header"></div>
+	<div class="container">
+	<ol class="breadcrumb">
+	  <li><a href="#" th:href="@{/}">Home</a></li>	
+	  <li class="active">Example</li>
+	  <li class="active">Upload File</li>  
+	</ol>	
+	<h3>Upload File</h3>
+	<!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <div th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}})">Alert</div>
+    </th:block>
+
+	<div>
+		<form method="POST" enctype="multipart/form-data" th:object="${fileBucket}" th:action="@{/upload/save(${_csrf.parameterName}=${_csrf.token})}">
+			<!--/* Show general error message when form contains errors */-->
+		    <th:block th:if="${#fields.hasErrors('${fileBucket.*}')}">
+		        <div th:replace="fragments/components :: alert (type='danger', message='Form contains errors. Please try again.')">Alert</div>
+		    </th:block>
+	    	<fieldset>
+		        <legend>
+			        <span th:if="${form_edit == '0'}" th:text="#{view.role.form.add.title}">Add User</span>
+					<span th:if="${form_edit == '1'}" th:text="#{view.role.form.edit.title}">Edit User</span>
+				</legend>
+				<div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('file')}? 'has-error'">
+		            <label for="name" class="col-xs-12 col-sm-3 col-md-3 control-label">File to upload</label>
+		            <div class="col-xs-12 col-sm-9 col-md-8">
+		            	<input type="file" th:field="*{file}" />	                
+		                <span class="help-block" th:if="${#fields.hasErrors('file')}" th:errors="*{file}">Incorrect file</span>
+		            </div>
+		        </div> 
+		        <div class="form-group form-group-sm">
+		            <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8"> 
+		                <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok" aria-hidden="true">Upload</span></button>		            
+		            </div>
+		        </div>
+			</fieldset>			
+		</form>
+	</div>
+	<div>&nbsp;</div>
+	<div>
+		<ul>
+			<li th:each="file : ${files}">
+				<a th:href="${file}" th:text="${file}" />
+			</li>
+		</ul>
+	</div>
+</div> <!-- end container -->
+<div th:replace="fragments/layout :: footer"></div>
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>

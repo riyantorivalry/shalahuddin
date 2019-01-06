@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- framework template yang dipakai, cirinya: ada syntax "th:" -->
+<head>
+    <title th:text="#{penceramah.list.title}">Account</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link  href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>        
+    <link  href="../../../resources/DataTables/datatables.min.css" rel="stylesheet" media="screen" th:href="@{/resources/DataTables/datatables.min.css}"/>
+    <link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/font-awesome.min.css}"/>
+    <link  href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+   <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>  
+	<script src="../../../resources/DataTables/datatables.min.js" th:src="@{/resources/DataTables/datatables.min.js}"></script>
+	<script src="../../../resources/js/jquery-checktree.js" th:src="@{/resources/js/jquery-checktree.js}"></script>
+    
+</head>
+<body>
+    <div th:replace="fragments/layout :: header"></div>
+<div class="container">
+    <ol class="breadcrumb">
+	  <li><a href="#" th:href="@{/}">Home</a></li>	
+	  <li class="active">Penceramah</li>
+	  <li class="active"><span th:text="#{penceramah.list.title}">List Penceramah</span></li>  
+    </ol>
+    <div class="content">
+    <h3><span th:text="#{penceramah.list.title}">List Penceramah</span></h3>
+	<!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <div th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}})">Alert</div>
+    </th:block>
+	<div class="row">
+		<div class="col-md-1">
+			<a class="btn btn-primary btn-sm" id="add"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Tambah</a>
+		</div>
+		<br>&nbsp;		
+	</div>
+    <div class="table-responsive">
+	<table id="penceramahGrid" class="table table-striped table-hover table-condensed">
+		<thead>
+            <tr>
+                <th>Nama</th>
+                <th>Bidang Kajian</th>
+                <th>Alamat</th>                
+                <th>Kontak</th>  
+                <th>Email</th> 
+                <th>Catatan</th>
+                <th class="dt-center">Action</th>           
+            </tr>
+        </thead>
+        <tbody>
+        	<tr th:each="penceramah : ${list}"> 
+        		<td th:text="${penceramah.nama}">nama</td>
+                <td th:text="${penceramah.bidangKajian}">Bidang Kajian</td>   
+                <td th:text="${penceramah.alamat}">Alamat</td>   
+                <td th:text="${penceramah.kontak}">Kontak</td>  
+                <td th:text="${penceramah.email}">Email</td>	
+                <td th:text="${penceramah.catatan}">Catatan</td>
+        		<td class="dt-center">
+        			<a href="#" class="btn btn-success btn-sm edit" th:attr="data-id=${penceramah.idPenceramah}"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Edit</a>        			
+        			<a href="#" class="btn btn-danger btn-sm" th:attr="data-href=@{/penceramah/deletePenceramah(idPenceramah=${penceramah.idPenceramah})}" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i> Hapus</a>
+        		</td>
+        	</tr>
+        </tbody>        
+    </table>
+    </div>
+</div>
+   <div id="exportButton"></div>
+    </div><!-- end content -->
+</div> <!-- end container -->
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<!-- Add Account modal -->
+<div th:replace="fragments/components :: modal(id='add-modal', title='Tambah Penceramah')"></div>
+<!-- Edit Account modal -->
+<div th:replace="fragments/components :: modal(id='edit-modal', title='Edit Penceramah')"></div>
+<!-- Delete confirmation modal -->
+<div th:replace="fragments/components :: confirm(id='confirm-delete', title='Hapus Penceramah', message='Apakah Anda yakin akan menghapus Penceramah?')"></div>
+
+<script th:inline="javascript">	
+	$(document).ready(function() {	
+	    var table = $('#penceramahGrid').DataTable( {
+		    buttons: [
+		    	{
+			    	extend:    'excelHtml5',
+			    	exportOptions: {
+	                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+	                },
+	                text:      '<i class="fa fa-lg fa-file-excel-o" style="color:green"></i>',
+	                titleAttr: 'Excel'
+                }, 
+		    	{
+			    	extend: 'pdfHtml5', 
+			    	exportOptions: {
+	                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+	                },
+			    	text:      '<i class="fa fa-lg fa-file-pdf-o" style="color:red"></i>',
+	                titleAttr: 'PDF'
+			    }
+		    ]
+		} );
+  
+		table.buttons().container().appendTo( '#exportButton' )
+    		//.appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+	} );
+	
+	
+		$('#add').on('click', function () {
+            console.log("add diklik");
+            addPenceramah();
+        })
+        $('.edit').on('click', function() {
+			var selectedId = $(this).attr('data-id');
+			console.log('selected id=' + selectedId);		
+			editPenceramah(selectedId);	
+		});
+		
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			console.log('confirm delete dialog');
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));            
+        });
+	
+	function addPenceramah(){
+		$("#add-modal").modal();
+        $("#add-modal-body").text("");
+        $.ajax({
+            url: [[@{/penceramah/addPenceramah}]],
+            cache: false
+        }).done(function (html) {
+            $("#add-modal-body").append(html);
+        });
+	}
+	
+	function editPenceramah(idPenceramah){
+       	console.log("edit penceramah Id: " + idPenceramah);		        
+        $("#edit-modal").modal();
+        $("#edit-modal-body").text("");
+        $.ajax({
+            url: [[@{/penceramah/editPenceramah}]] + "?idPenceramah=" + idPenceramah,
+            cache: false
+        }).done(function (html) {
+            $("#edit-modal-body").append(html);
+        });
+    }
+    
+</script>
+</body>
+</html>

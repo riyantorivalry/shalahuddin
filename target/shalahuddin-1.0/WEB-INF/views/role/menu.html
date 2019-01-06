@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">        
+    <link rel="shortcut icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+    
+    <title th:text="#{view.role.menu.form.edit.title}">Edit Role - Menu</title>    
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}" />
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->    
+	<script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>   
+    <script src="../../../resources/js/jquery-checktree.js" th:src="@{/resources/js/jquery-checktree.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="container">	
+	<ol class="breadcrumb">
+	  <li><a href="#" th:href="@{/}">Home</a></li>	
+	  <li><a href="#" th:href="@{/user}">User Management</a></li>
+	  <li><a href="#" th:href="@{/role}">Role</a></li>  
+	  <li class="active"><span th:text="#{view.role.menu.form.edit.title}"></span></li>
+	</ol>
+	
+    <!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */ -->
+        <div th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}})">&nbsp;</div>
+    </th:block>    
+    <form id="form-menus" class="form-narrow form-horizontal" th:action="@{/role/saveMenus}" method="post" th:object="${roleForm}" th:fragment="form">
+    	<!--/* Show general error message when form contains errors */-->
+	    <th:block th:if="${#fields.hasErrors('${roleForm.*}')}">
+	        <div th:replace="fragments/components :: alert (type='danger', message='Form contains errors. Please try again.')">Alert</div>
+	    </th:block>
+		<input type="hidden" th:field="*{id}" />
+	
+		  <fieldset>
+		    <legend>Role Menu</legend>
+		    <div class="form-group">
+	            <label for="name" class="col-xs-12 col-sm-3 col-md-3">Role Name</label>
+	            <div class="col-xs-12 col-sm-9 col-md-8"><span th:text="*{name}"></span></div>
+	        </div> 
+		    <div class="form-group form-group-sm">
+				<ul id="ul-display-tree" class="menu-ul"></ul>
+			</div>		    
+		    <div class="form-group form-group-sm">
+	            <div class="col-xs-offset-12 col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8">
+	            	<a href="form" th:href="@{/role}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true">&nbsp;Cancel</span></a>
+	                <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok" aria-hidden="true" th:text="'&nbsp;Update'">Create/Update</span></button>
+	            </div>
+	        </div>  
+		  </fieldset>
+		  	 
+    <script th:inline="javascript">
+//<![CDATA[ 
+$(document).ready(function(){
+	var listData = [[${roleMenuFormList}]];
+	var root = $("#ul-display-tree");
+	
+	echo_item(listData);
+	console.log(listData);
+	root.checktree();
+	
+	function echo_item(datas){
+		if(datas.length > 0){
+			for(var i= 0 ; i < datas.length ; i++){
+				var item = datas[i];
+				var li = $('<li/>');
+				li.append(create_label_input(item));
+				root.append(li);
+				echo_child(li, item.child);
+			}
+		}
+	}
+	
+	function create_label_input (item){
+		if(item.checked){
+			return '<label style="padding-right: 40px;"><input type="checkbox" checked="checked" value="'+item.id+'" name="menus" id="menus'+item.id+'" '  + 
+					'/>&nbsp;<span id="feature_name_'+item.id+'" >'+item.name+'</span></label>';
+		} else {
+			return '<label style="padding-right: 40px;"><input type="checkbox" value="'+item.id+'" name="menus" id="menus'+item.id+'" '  + 
+					'/>&nbsp;<span id="feature_name_'+item.id+'" >'+item.name+'</span></label>';
+		}
+	}
+	
+	function echo_child(rootLi, datas){
+		if(datas.length > 0){
+			var ul = $('<ul/>');
+			ul.addClass('menu-ul');
+			for(var i= 0 ; i < datas.length ; i++){
+				var item = datas[i];
+				var li = $('<li/>');
+				li.append(create_label_input(item));
+				ul.append(li);
+				echo_child(li, item.child);
+			}
+			rootLi.append(ul);
+		}
+	}
+})
+// ]]> 
+</script>
+	</form>
+
+</div> <!-- end container -->
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

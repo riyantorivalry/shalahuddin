@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">        
+    <link rel="shortcut icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+    
+    <title th:if="${form_edit == '0'}" th:text="#{view.role.form.add.title}">Add Role</title>
+    <title th:if="${form_edit == '1'}" th:text="#{view.role.form.edit.title}">Edit Role</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />    
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->    
+	<script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div th:replace="fragments/layout :: header"></div>
+	<div class="container">
+	<ol class="breadcrumb">
+	  <li><a href="#" th:href="@{/}">Home</a></li>	
+	  <li class="active">Penceramah</li>
+	  <li class="active">Form Penceramah</li> 
+	</ol>
+	<h1 th:text="#{penceramah.form.title}">Form Penceramah</h1>
+	<form class:"form-narrow form-horizontal" method="post" action="#"
+		th:action="@{/penceramah/savePenceramah}"
+		th:object="${penceramah}" th:fragment="penceramahForm">
+		<input type="hidden" th:field="*{idPenceramah}" />
+		<fieldset>
+		<div class="form-group form-group-sm">
+			<label for="Nama"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Nama</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{nama}"
+					placeholder="Nama">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label for="bidangKajian"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Bidang Kajian</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{bidangKajian}"
+					placeholder="Bidang Kajian">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label for="alamat"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Alamat</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{alamat}"
+					placeholder="Alamat">
+			</div>
+		</div>
+				<div class="form-group form-group-sm">
+			<label for="kontak"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Kontak</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{kontak}"
+					placeholder="Kontak">
+			</div>
+		</div>
+				<div class="form-group form-group-sm">
+			<label for="email"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Email</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{email}"
+					placeholder="Email">
+			</div>
+		</div>
+				<div class="form-group form-group-sm">
+			<label for="catatan"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Catatan</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+            	<textarea id="catatan" rows="3" class="form-control" placeholder="Catatan" th:field="*{catatan}"></textarea>                
+			</div>
+		</div>
+		       <div class="form-group form-group-sm">
+            <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8"> 
+            	<a href="form" th:href="@{/penceramah/listPenceramah}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true">&nbsp;Tunda</span></a>
+                <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok" aria-hidden="true" >Buat/Perbarui</span></button>
+            
+            </div>
+        </div>
+		</fieldset>
+	</form>
+
+</body>
+</html>

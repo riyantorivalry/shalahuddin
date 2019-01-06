@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="#{training.form.title}">Insert title here</title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/core.css}" />
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<script src="../../../resources/js/jquery.min.js"
+	th:src="@{/resources/js/jquery.min.js}"></script>
+<script src="../../../resources/js/bootstrap.min.js"
+	th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="../../../resources/DataTables/datatables.min.js"
+	th:src="@{/resources/DataTables/datatables.min.js}"></script>
+<script src="../../../resources/js/moment.min.js"
+	th:src="@{/resources/js/moment.min.js}"></script>
+<script src="../../../resources/js/bootstrap-datetimepicker.min.js"
+	th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>
+
+
+</head>
+<body>
+	<div th:replace="fragments/layout :: header"></div>
+	<div th:replace="fragments/layout :: footer"></div>
+	<h1 th:text="#{training.form.title}">FORM</h1>
+	<form class:"form-horizontal" method="post" action="#"
+		th:action="@{/training/save}" th:object="${training}"
+		th:fragment="trainingForm">
+		<input type="hidden" th:field="*{id}" />
+		<!-- id yang dibuat hidden biar bisa digunakan saat edit/delete  -->
+		<div class="form-group">
+			<label for="namaTraining" class="col-xs-12 col-sm-3 col-md-3 control-label">Nama
+				Training</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{namaTraining}"
+					placeholder="Nama training">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="tanggalTraining" class="col-xs-12 col-sm-3 col-md-3 control-label">Tanggal
+				Training</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control"
+					th:field="*{tanggalTraining}" placeholder="DD-MM-YYYY">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="jumlahPeserta" class="col-xs-12 col-sm-3 col-md-3 control-label">Jumlah
+				Peserta</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{jumlahPeserta}"
+					placeholder="Jumlah Peserta">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="company" class="col-xs-12 col-sm-3 col-md-3 control-label">Company</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<input type="text" class="form-control" th:field="*{company}"
+					placeholder="Company">
+			</div>
+		</div>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-2">
+		<button class="btn btn-primary btn-md">Submit</button>
+		</div>
+	</form>
+</body>
+</html>

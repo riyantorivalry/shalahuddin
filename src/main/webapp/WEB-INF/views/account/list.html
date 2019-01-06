@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{view.account.list.title}">Account</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link  href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>      
+    <link  href="../../../resources/DataTables/datatables.min.css" rel="stylesheet" media="screen" th:href="@{/resources/DataTables/datatables.min.css}"/>
+    <link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/font-awesome.min.css}"/>
+    <link href="../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}" />
+    <link  href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />  
+       
+    <!-- Bootstrap core JavaScript
+    ================================================== -->    
+	<script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>  
+	<script src="../../../resources/DataTables/datatables.min.js" th:src="@{/resources/DataTables/datatables.min.js}"></script>
+	<script src="../../../resources/js/moment.min.js" th:src="@{/resources/js/moment.min.js}"></script>
+	<script src="../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script> 
+    
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="container">
+	<ol class="breadcrumb">
+	  <li><a href="#" th:href="@{/}">Home</a></li>	
+	  <li class="active">User Management</li>
+	  <li class="active"><span th:text="#{view.account.list.title}">User List</span></li>  
+	</ol>
+	<div class="content">
+    <h3><span th:text="#{view.account.list.title}">User List</span></h3>
+	<!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <div th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}})">Alert</div>
+    </th:block>
+	<div class="row">
+		<div class="col-md-1">
+			<a class="btn btn-primary" id="add"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add</a>
+		</div>
+		<br>&nbsp;		
+	</div>
+	<div class="table-responsive">
+	<table id="userGrid" class="table table-striped table-hover table-condensed">
+		<thead>
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th>Email</th>                
+                <th>Role Code</th>  
+                <th>Status</th>   
+                <th class="dt-center">Action</th>           
+            </tr>
+        </thead>
+        <tbody>
+        	<tr th:each="user : ${accountList}"> 
+        		<td th:text="${user.userId}">user id</td>
+        		<td th:text="${user.name}">name</td>
+        		<td th:text="${user.dateOfBirth}">DOB</td>
+        		<td th:text="${user.email}">email</td>        		
+        		<td th:text="${user.role}">role</td>
+        		<td th:text="${user.active}? #{status.active} : #{status.inactive}">status</td>
+        		<td class="dt-center">
+        			<a href="#" class="btn btn-success btn-sm edit" th:attr="data-id=${user.userId}"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Edit</a>        			
+        			<a href="#" class="btn btn-danger btn-sm" th:attr="data-href=@{/account/delete(userId=${user.userId})}" data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i> Delete</a>
+        		</td>
+        	</tr>
+        </tbody>        
+    </table>
+    </div>
+    <div id="exportButton"></div>
+    </div> <!-- end content -->
+</div> <!-- end container -->
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<!-- Add Account modal -->
+<div th:replace="fragments/components :: modal(id='add-modal', title='Add Account')"></div>
+<!-- Edit Account modal -->
+<div th:replace="fragments/components :: modal(id='edit-modal', title='Edit Account')"></div>
+<!-- Delete confirmation modal -->
+<div th:replace="fragments/components :: confirm(id='confirm-delete', title='Delete Account', message='Are You sure want to delete Account?')"></div>
+
+<script th:inline="javascript">	
+	$(document).ready(function() {	
+	    var table = $('#userGrid').DataTable( {
+		    buttons: [
+		    	{
+			    	extend:    'excelHtml5',
+			    	exportOptions: {
+	                    columns: [ 0, 1, 2, 3, 4, 5]
+	                },
+	                text:      '<i class="fa fa-lg fa-file-excel-o" style="color:green"></i>',
+	                titleAttr: 'Excel'
+                }, 
+		    	{
+			    	extend: 'pdfHtml5', 
+			    	exportOptions: {
+	                    columns: [ 0, 1, 2, 3, 4, 5]
+	                },
+			    	text:      '<i class="fa fa-lg fa-file-pdf-o" style="color:red"></i>',
+	                titleAttr: 'PDF'
+			    }
+		    ]
+		} );
+  
+		table.buttons().container().appendTo( '#exportButton' )
+    		//.appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+	} );
+	
+	$('#add').on('click', function () {
+    	addAccount();
+    })
+    $('.edit').on('click', function() {
+		var selectedId = $(this).attr('data-id');
+		console.log('selected id=' + selectedId);		
+		editAccount(selectedId);	
+	});
+	
+	$('#confirm-delete').on('show.bs.modal', function(e) {
+		console.log('confirm delete dialog');
+    	$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));            
+   	});
+	
+	function addAccount(){
+		$("#add-modal").modal();
+        $("#add-modal-body").text("");
+        $.ajax({
+            url: [[@{/account/add}]],
+            cache: false
+        }).done(function (html) {
+            $("#add-modal-body").append(html);
+        });
+	}
+	
+	function editAccount(userId){
+       	console.log("edit account userId: " + userId);		        
+        $("#edit-modal").modal();
+        $("#edit-modal-body").text("");
+        $.ajax({
+            url: [[@{/account/edit}]] + "?userId=" + userId,
+            cache: false
+        }).done(function (html) {
+            $("#edit-modal-body").append(html);
+        });
+    }
+</script>
+</body>
+</html>

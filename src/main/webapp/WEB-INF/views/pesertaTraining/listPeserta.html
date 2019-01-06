@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- framework template yang dipakai, cirinya: ada syntax "th:" -->
+<head>
+<meta charset="ISO-8859-1">
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/core.css}" />
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<script src="../../../resources/js/jquery.min.js"
+	th:src="@{/resources/js/jquery.min.js}"></script>
+<script src="../../../resources/js/bootstrap.min.js"
+	th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="../../../resources/DataTables/datatables.min.js"
+	th:src="@{/resources/DataTables/datatables.min.js}"></script>
+<script src="../../../resources/js/moment.min.js"
+	th:src="@{/resources/js/moment.min.js}"></script>
+<script src="../../../resources/js/bootstrap-datetimepicker.min.js"
+	th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>
+
+</head>
+
+<body>
+	<div th:replace="fragments/layout :: header"></div>
+	<div th:replace="fragments/layout :: footer"></div>
+
+	<h1 th:text="#{training.listPeserta.title}">Title</h1>
+
+	<!-- /* Handle the flash message */-->
+	<th:block th:if="${message != null}">
+		<div
+			th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}})">Alert</div>
+	</th:block>
+	
+	<form class:"form-horizontal" method="post" action="#"
+		th:action="@{/pesertaTraining/cariPeserta}">
+		<fieldset>
+			<legend> Cari Peserta Training</legend>
+			<div class="form-group">
+				<label for="namaDepan"
+					class="col-sm-2 col-sm-offset-2 control-label">Nama Depan</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="namaDepan"
+						placeholder="Nama depan">
+				</div>
+				<label for="namaBelakang"
+					class="col-sm-2 col-sm-offset-2 control-label">Nama
+					Belakang</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="namaBelakang"
+						placeholder="Nama belakang">
+				</div>
+				<!-- 				<label for="tanggalLahir" class="col-sm-2 col-sm-offset-2 control-label">Tanggal -->
+				<!-- 					Lahir</label> -->
+				<!-- 				<div class="col-sm-5"> -->
+				<!-- 					<input type="text" class="form-control" name="tanggalLahir" -->
+				<!-- 						placeholder="Tanggal lahir"> -->
+				<!-- 				</div> -->
+				<label for="nilaiTraining"
+					class="col-sm-2 col-sm-offset-2 control-label">Nilai
+					Training</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="nilaiTraining"
+						placeholder="Nilai training">
+				</div>
+				<label for="company" class="col-sm-2 col-sm-offset-2 control-label">Company</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="company"
+						placeholder="Company">
+				</div>
+				<label for="dateFrom" class="col-sm-2 col-sm-offset-2 control-label">Date
+					From</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="dateFrom"
+						placeholder="Date From">
+				</div>
+				<label for="dateTo" class="col-sm-2 col-sm-offset-2 control-label">Date
+					To</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="dateTo"
+						placeholder="Date To">
+				</div>
+				<div class="form-group form-group-sm">
+					<div class="col-sm-2 col-sm-offeset-2">
+						<button type="submit" class="btn btn-primary btn-sm">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true">Cari</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		</br> </br>
+	</form>
+	<form class:"form-horizontal" method="get" action="#"
+		th:action="@{/pesertaTraining/listPeserta}">
+		<div class="col-sm-offeset-2 col-sm-5  ">
+			<button type="submit" class="btn btn-primary btn-sm">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true">Kembali</span>
+			</button>
+		</div>
+	</form>
+	<button id="add" type="button" class="btn btn-primary btn-lg">launch
+		Demo Modal</button>
+
+	<!-- @ untuk alamat di laman -->
+	<div class="table-responsive">
+		<table id="pesertaGrid"
+			class="table table-striped table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>Nama Depan</th>
+					<th>Nama Belakang</th>
+					<th>Tanggal Lahir</th>
+					<th>Nilai Training</th>
+					<th>Company</th>
+					<th class="dt-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="pesertaTraining:${list}">
+					<td th:text="${pesertaTraining.namaDepan}">Nama Depan</td>
+					<td th:text="${pesertaTraining.namaBelakang}">Nama Belakang</td>
+					<td th:text="${pesertaTraining.tanggalLahir}">Tanggal Lahir</td>
+					<td th:text="${pesertaTraining.nilaiTraining}">Nilai Training</td>
+					<td th:text="${pesertaTraining.company}">Company</td>
+					<td><a href="#" class="btn btn-success btn-sm edit"
+						th:attr="data-id=${pesertaTraining.idPeserta}"><i
+							class="glyphicon glyphicon-pencil" aria-hidden="true"></i>Edit</a> <a
+						href="#" class="btn btn-danger btn-sm"
+						th:attr="data-href=@{/pesertaTraining/deletePeserta(idPeserta=${pesertaTraining.idPeserta})}"
+						data-toggle="modal" data-target="#confirm-delete"><i
+							class="glyphicon glyphicon-remove" aria-hidden="true"></i>Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<!-- Add Peserta modal -->
+	<div
+		th:replace="fragments/components :: modal(id='add-modal', title='Add Peserta')"></div>
+
+	<script th:inline="javascript">
+		$('#add').on('click', function() { <!--#add disesuaikan dengan nama id yang akan dibuat popup -->
+			console.log("add diklik");
+			addTraining();
+		})
+		
+		function addTraining(){
+			$("#add-modal").modal();
+			$("#add-modal-body").text("");
+			$.ajax({
+				url:[[@{/pesertaTraining/addPeserta}]],
+				cache:false
+			}).done(function (html){
+				$("#add-modal-body").append(html);
+			});
+		}
+		
+	</script>
+
+	<!-- Edit Peserta modal -->
+	<div
+		th:replace="fragments/components :: modal(id='edit-modal', title='Edit Peserta')"></div>
+	<script th:inline="javascript">
+		$('.edit').on('click', function() {
+			var selectedId =$(this).attr('data-id');
+			console.log('selected id='+selectedId);
+			editTraining(selectedId);
+		})
+		
+		function editTraining(idPeserta){
+			console.log("edit id: "+idPeserta);
+			$("#edit-modal").modal();
+			$("#edit-modal-body").text("");
+			$.ajax({
+				url:[[@{/pesertaTraining/editPeserta}]]+ "?idPeserta=" +idPeserta, <!-- "?idPeserta" disesuaikan dengan nama variabel-->
+				cache:false
+			}).done(function (html){
+				$("#edit-modal-body").append(html);
+			});
+		}
+		
+	</script>
+
+	<!-- Delete confirmation modal -->
+	<div
+		th:replace="fragments/components :: confirm(id='confirm-delete', title='Delete Peserta', message='Are You sure want to delete Peserta?')"></div>
+	<script th:inline="javascript">
+	$('#confirm-delete').on('show.bs.modal', function(e) {
+	console.log('confirm delete dialog');
+	$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+	});
+</script>
+
+</body>
+</html>

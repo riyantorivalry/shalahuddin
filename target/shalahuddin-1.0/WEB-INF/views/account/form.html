@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">        
+    <link rel="shortcut icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+    
+    <title th:if="${form_edit == '0'}" th:text="#{view.account.form.add.title}">Add User</title>
+    <title th:if="${form_edit == '1'}" th:text="#{view.account.form.edit.title}">Edit User</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}" />
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />  
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->    
+	<script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>  
+    <script src="../../../resources/js/moment.min.js" th:src="@{/resources/js/moment.min.js}"></script>
+	<script src="../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script> 
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="container">
+	<ol class="breadcrumb">
+	  <li><a href="#" th:href="@{/}">Home</a></li>	
+	  <li class="active">User Management</li>
+	  <li class="active">User</li>  
+	  <li class="active">
+	  	<span th:if="${form_edit == '0'}" th:text="#{view.account.form.add.title}">Add User</span>
+		<span th:if="${form_edit == '1'}" th:text="#{view.account.form.edit.title}">Edit User</span>
+	  </li>
+	</ol>
+<form class="form-narrow form-horizontal" method="post" th:action="@{/account/save}" th:object="${signupForm}" th:fragment="signupForm">
+    <!--/* Show general error message when form contains errors */-->
+    <th:block th:if="${#fields.hasErrors('${signupForm.*}')}">
+        <div th:replace="fragments/components :: alert (type='danger', message='Form contains errors. Please try again.')">Alert</div>
+    </th:block>
+    <fieldset>
+        <legend>
+	        <span th:if="${form_edit == '0'}" th:text="#{view.account.form.add.title}">Add User</span>
+			<span th:if="${form_edit == '1'}" th:text="#{view.account.form.edit.title}">Edit User</span>
+		</legend>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('userId')}? 'has-error'">
+            <label for="userId" class="col-xs-12 col-sm-3 col-md-3 control-label">User ID</label>            		
+            <div class="col-xs-12 col-sm-9 col-md-8">
+            	<!-- Add mode -->
+                <input type="text" class="form-control" placeholder="User ID" th:field="*{userId}" th:if="${form_edit == '0'}" />
+                <!--  Edit mode -->
+                <p class="form-control-static" th:text="*{userId}" th:if="${form_edit == '1'}">User ID</p>
+                <input type="hidden" th:field="*{userId}" th:if="${form_edit == '1'}"/>                
+				<input type="hidden" name="form_edit" th:value="${form_edit}"/>	
+                <span class="help-block" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">Incorrect userId</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+            <label for="name" class="col-xs-12 col-sm-3 col-md-3 control-label">Full Name</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="text" class="form-control" id="name" placeholder="User Name" th:field="*{name}" />
+                <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('dateOfBirth')}? 'has-error'">
+            <label for="dateOfBirth" class="col-xs-12 col-sm-3 col-md-3 control-label">Date of Birth</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+            	<div class="input-group date" id="datePickerInputGroup">
+					<input type="text" class="form-control" placeholder="dd-MM-yyyy" th:field="*{dateOfBirth}" /> 
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+<!--                 <input type="text" class="form-control" id="dateOfBirth" placeholder="dd-MM-yyyy" th:field="*{dateOfBirth}" /> -->
+                <span class="help-block" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Incorrect Date</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+            <label for="email" class="col-xs-12 col-sm-3 col-md-3 control-label">Email</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="text" class="form-control" id="email" placeholder="Email address" th:field="*{email}" />
+                <span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('password')}? 'has-error'" th:if="${form_edit == '0'}">
+            <label for="password" class="col-xs-12 col-sm-3 col-md-3 control-label">Password *</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="password" class="form-control" placeholder="Password" th:field="*{password}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
+            </div>
+        </div>
+        <input type="hidden" th:field="*{password}" th:if="${form_edit == '1'}"/>  
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('role')}? 'has-error'">
+            <label for="role" class="col-xs-12 col-sm-3 col-md-3 control-label">Role *</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+	           	<select th:field="*{role}">
+	            	<option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}">ROLE_USER</option>
+	            </select>                
+                <span class="help-block" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Incorrect Role</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('active')}? 'has-error'">
+            <label for="active" class="col-xs-12 col-sm-3 col-md-3 control-label">Is Active</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="checkbox" th:field="*{active}" />  
+                <span class="help-block" th:if="${#fields.hasErrors('active')}" th:errors="*{active}">Incorrect Active flag</span>              
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('accountNonLocked')}? 'has-error'">
+            <label for="accountNonLocked" class="col-xs-12 col-sm-3 col-md-3 control-label">Is Account Non Locked</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="checkbox" th:field="*{accountNonLocked}" />  
+                <span class="help-block" th:if="${#fields.hasErrors('active')}" th:errors="*{accountNonLocked}">Incorrect accountNonLocked flag</span>              
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8"> 
+            	<a href="form" th:href="@{/account/list}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true">&nbsp;Cancel</span></a>
+                <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok" aria-hidden="true" th:text="${form_edit == '0'}?'&nbsp;Create':'&nbsp;Update'">Create/Update</span></button>
+            
+            </div>
+        </div>
+    </fieldset>
+    
+	<script th:inline="javascript">
+		var dateformat = 'DD-MM-YYYY';
+		
+		$(document).ready(function() {
+			$('#datePickerInputGroup').datetimepicker({
+				format : dateformat,
+				//minDate : 'now',
+				showTodayButton : true,
+				showClear : true
+			});		
+			
+			$('#dateOfBirth').on('keypress', function(e) {
+			    e.preventDefault(); // Don't allow direct editing
+			});	
+		});
+	</script>
+</form>
+</div> <!-- end container -->
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

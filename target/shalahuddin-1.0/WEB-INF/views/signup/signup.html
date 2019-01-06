@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">        
+    <link rel="shortcut icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+	<link rel="icon" href="../../../resources/images/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon">
+    
+    <title th:text="#{view.signup.title}">Sign Up</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="container">
+<form class="form-narrow form-horizontal" method="post" th:action="@{/signup}" th:object="${signupForm}" th:fragment="signupForm">
+    <!--/* Show general error message when form contains errors */-->
+    <th:block th:if="${#fields.hasErrors('${signupForm.*}')}">
+        <div th:replace="fragments/components :: alert (type='danger', message='Form contains errors. Please try again.')">Alert</div>
+    </th:block>
+    <fieldset>
+        <legend>Please Sign Up</legend>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('userId')}? 'has-error'">
+            <label for="userId" class="col-xs-12 col-sm-3 col-md-3 control-label">User ID</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="text" class="form-control" id="userId" placeholder="User ID" th:field="*{userId}" />
+                <span class="help-block" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">Incorrect email</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+            <label for="userId" class="col-xs-12 col-sm-3 col-md-3 control-label">Full Name</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="text" class="form-control" id="name" placeholder="User Name" th:field="*{name}" />
+                <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+            <label for="email" class="col-xs-12 col-sm-3 col-md-3 control-label">Email</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="text" class="form-control" id="email" placeholder="Email address" th:field="*{email}" />
+                <span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+            <label for="password" class="col-xs-12 col-sm-3 col-md-3 control-label">Password</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="password" class="form-control" id="password" placeholder="Password" th:field="*{password}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('role')}? 'has-error'">
+            <label for="role" class="col-xs-12 col-sm-3 col-md-3 control-label">Role *</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+	           	<select th:field="*{role}">
+	            	<option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}">ROLE_USER</option>
+	            </select>                
+                <span class="help-block" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Incorrect Role</span>
+            </div>
+        </div>
+        <div class="form-group form-group-sm" th:classappend="${#fields.hasErrors('active')}? 'has-error'">
+            <label for="active" class="col-xs-12 col-sm-3 col-md-3 control-label">Is Active</label>
+            <div class="col-xs-12 col-sm-9 col-md-8">
+                <input type="checkbox" th:field="*{active}" />  
+                <span class="help-block" th:if="${#fields.hasErrors('active')}" th:errors="*{active}">Incorrect Active flag</span>              
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8">
+                <button type="submit" class="btn btn-primary btn-sm">Sign up</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8">
+                <p>Already have an account? <a href="signin" th:href="@{/signin}">Sign In</a></p>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</div> <!-- end container -->
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>
