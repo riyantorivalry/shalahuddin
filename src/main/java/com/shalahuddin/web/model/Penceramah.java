@@ -1,11 +1,13 @@
 package com.shalahuddin.web.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +24,10 @@ public class Penceramah {
 
 	@Column(name="NAMA", length=50)
 	private String nama;
+
+	@Lob
+	@Column(name="PIC")
+	private byte[] pic;
 
 	@Column(name="BIDANG_KAJIAN", length=50)
 	private String bidangKajian;
@@ -55,6 +61,14 @@ public class Penceramah {
 
 	public String getNama() {
 		return nama;
+	}
+
+	public byte[] getPic() {
+		return pic;
+	}
+
+	public void setPic(byte[] pic) {
+		this.pic = pic;
 	}
 
 	public void setNama(String nama) {
@@ -128,6 +142,7 @@ public class Penceramah {
 		result = prime * result + ((idPenceramah == null) ? 0 : idPenceramah.hashCode());
 		result = prime * result + ((kontak == null) ? 0 : kontak.hashCode());
 		result = prime * result + ((nama == null) ? 0 : nama.hashCode());
+		result = prime * result + Arrays.hashCode(pic);
 		result = prime * result + ((riwayatID == null) ? 0 : riwayatID.hashCode());
 		result = prime * result + ((updateDate == null) ? 0 : updateDate.hashCode());
 		return result;
@@ -194,6 +209,9 @@ public class Penceramah {
 		} else if (!nama.equals(other.nama)) {
 			return false;
 		}
+		if (!Arrays.equals(pic, other.pic)) {
+			return false;
+		}
 		if (riwayatID == null) {
 			if (other.riwayatID != null) {
 				return false;
@@ -218,6 +236,8 @@ public class Penceramah {
 		builder.append(idPenceramah);
 		builder.append(", nama=");
 		builder.append(nama);
+		builder.append(", pic=");
+		builder.append(Arrays.toString(pic));
 		builder.append(", bidangKajian=");
 		builder.append(bidangKajian);
 		builder.append(", alamat=");

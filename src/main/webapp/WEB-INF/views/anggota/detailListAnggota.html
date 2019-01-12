@@ -30,7 +30,7 @@
 	</ol>
 	<h1 th:text="#{anggota.form.title}">Form Anggota</h1>
 	<form class:"form-narrow form-horizontal" method="post" action="#" enctype="multipart/form-data"
-		th:action="@{/anggota/saveAnggota}"
+		th:action="@{/anggota/listAnggota}"
 		th:object="${anggota}" th:fragment="anggotaForm">
 		<input type="hidden" th:field="*{idAnggota}" />
 		<fieldset>
