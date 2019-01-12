@@ -23,6 +23,7 @@ Prerequisites
 - JDK 8
 - Tomcat v8.0
 - Maven 3
+- PostgreSQL DB (optional, you can use other DB)
 
 Tools
 ------------
@@ -48,9 +49,9 @@ Open Eclipse IDE :
 
 Navigate to the project, then:
 - Righ click > Run As > Maven clean
-- Ensure that the project is cleaned up succesfully. Find out in 'Console' 
+- Make sure that the project is cleaned up succesfully. Find out in 'Console' 
 - Then, Righ click > Run As > Maven install
-- Ensure that the project is installed succesfully, generating war file automatically by system. Find out in 'Console' 
+- Make sure that the project is installed succesfully, generating war file automatically by system. Find out in 'Console' 
 
 ```
 Run the project
