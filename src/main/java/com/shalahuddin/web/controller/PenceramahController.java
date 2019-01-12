@@ -73,10 +73,6 @@ public class PenceramahController {
 			if (penceramah.getIdPenceramah() != null) {
 				Penceramah entity = penceramahRepo.findOne(penceramah.getIdPenceramah());
 				BeanUtils.copyProperties(penceramah, entity, "idPenceramah", "version");
-				// entity.setNamaTraining(training.getNamaTraining());
-				// entity.setTanggalTraining(training.getTanggalTraining());
-				// entity.setJumlahPeserta(training.getJumlahPeserta());
-				// entity.setCompany(training.getCompany());
 				Penceramah savePenceramah = penceramahRepo.save(entity);
 				System.out.println("saved: " + savePenceramah);
 			} else {

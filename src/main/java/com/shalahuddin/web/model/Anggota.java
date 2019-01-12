@@ -1,11 +1,13 @@
 package com.shalahuddin.web.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,6 +31,10 @@ public class Anggota extends Auditable {
 
 	@Column(name="NAMA", length=50)
 	private String nama;
+
+	@Lob
+	@Column(name="PIC")
+	private byte[] pic;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="TANGGAL_LAHIR", length=7)
@@ -82,6 +88,14 @@ public class Anggota extends Auditable {
 
 	public void setNama(String nama) {
 		this.nama = nama;
+	}
+
+	public byte[] getPic() {
+		return pic;
+	}
+
+	public void setPic(byte[] pic) {
+		this.pic = pic;
 	}
 
 	public Date getTanggalLahir() {
@@ -172,11 +186,12 @@ public class Anggota extends Auditable {
 	//		this.prestasi = prestasi;
 	//	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (active ? 1231 : 1237);
+		result = prime * result + ((active == null) ? 0 : active.hashCode());
 		result = prime * result + ((alamat == null) ? 0 : alamat.hashCode());
 		result = prime * result + ((angkatan == null) ? 0 : angkatan.hashCode());
 		result = prime * result + ((departemenId == null) ? 0 : departemenId.hashCode());
@@ -185,7 +200,7 @@ public class Anggota extends Auditable {
 		result = prime * result + ((keanggotaan == null) ? 0 : keanggotaan.hashCode());
 		result = prime * result + ((kontak == null) ? 0 : kontak.hashCode());
 		result = prime * result + ((nama == null) ? 0 : nama.hashCode());
-		//		result = prime * result + ((prestasi == null) ? 0 : prestasi.hashCode());
+		result = prime * result + Arrays.hashCode(pic);
 		result = prime * result + ((prodi == null) ? 0 : prodi.hashCode());
 		result = prime * result + ((tanggalLahir == null) ? 0 : tanggalLahir.hashCode());
 		result = prime * result + ((universitas == null) ? 0 : universitas.hashCode());
@@ -204,7 +219,11 @@ public class Anggota extends Auditable {
 			return false;
 		}
 		Anggota other = (Anggota) obj;
-		if (active != other.active) {
+		if (active == null) {
+			if (other.active != null) {
+				return false;
+			}
+		} else if (!active.equals(other.active)) {
 			return false;
 		}
 		if (alamat == null) {
@@ -263,13 +282,9 @@ public class Anggota extends Auditable {
 		} else if (!nama.equals(other.nama)) {
 			return false;
 		}
-		//		if (prestasi == null) {
-		//			if (other.prestasi != null) {
-		//				return false;
-		//			}
-		//		} else if (!prestasi.equals(other.prestasi)) {
-		//			return false;
-		//		}
+		if (!Arrays.equals(pic, other.pic)) {
+			return false;
+		}
 		if (prodi == null) {
 			if (other.prodi != null) {
 				return false;
@@ -301,6 +316,8 @@ public class Anggota extends Auditable {
 		builder.append(idAnggota);
 		builder.append(", nama=");
 		builder.append(nama);
+		builder.append(", pic=");
+		builder.append(Arrays.toString(pic));
 		builder.append(", tanggalLahir=");
 		builder.append(tanggalLahir);
 		builder.append(", alamat=");
@@ -321,8 +338,6 @@ public class Anggota extends Auditable {
 		builder.append(keanggotaan);
 		builder.append(", active=");
 		builder.append(active);
-		//		builder.append(", prestasi=");
-		//		builder.append(prestasi);
 		builder.append("]");
 		return builder.toString();
 	}

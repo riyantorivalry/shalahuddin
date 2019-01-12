@@ -65,6 +65,10 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
 
 		return resolver;
 	}
+	//	@Bean(name = "multipartResolver")
+	//	public StandardServletMultipartResolver resolver() {
+	//		return new StandardServletMultipartResolver();
+	//	}
 
 	@Bean
 	public ITemplateResolver templateResolver() {

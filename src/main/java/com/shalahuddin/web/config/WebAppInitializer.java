@@ -1,6 +1,7 @@
 package com.shalahuddin.web.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.WebApplicationInitializer;
@@ -40,5 +41,17 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 		registration.setInitParameter("defaultHtmlEscape", "true");
 		registration.setInitParameter("spring.profiles.active", "default");
+	}
+
+	private MultipartConfigElement getMultipartConfigElement() {
+		//PropertyUtil util=new PropertyUtil();
+		String tmp_location = System.getProperty("user.dir");
+		Long max_file_size = Long.parseLong("5242880");// util.getFileMaxSize();
+		Long max_request_size = Long.parseLong("20971520");//util.getMaxRequestSize();
+		Integer file_size_treshold = 0;//util.getFileSizeTreshold();
+		MultipartConfigElement multipartConfigElement = new MultipartConfigElement(tmp_location, max_file_size,
+				max_request_size, file_size_treshold);
+		return multipartConfigElement;
+
 	}
 }

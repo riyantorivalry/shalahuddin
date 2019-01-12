@@ -1,5 +1,6 @@
 package com.shalahuddin.web.form;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import com.shalahuddin.web.model.PrestasiAnggota;
 
 public class AnggotaForm {
 	private String nama;
+	private byte[] pic;
 	private Date tanggalLahir;
 	private String alamat;
 	private String prodi;
@@ -18,6 +20,7 @@ public class AnggotaForm {
 	private String keanggotaan;
 	private Boolean active;
 	private List<PrestasiAnggota> prestasi;
+
 	public AnggotaForm() {
 		super();
 	}
@@ -26,6 +29,12 @@ public class AnggotaForm {
 	}
 	public void setNama(String nama) {
 		this.nama = nama;
+	}
+	public byte[] getPic() {
+		return pic;
+	}
+	public void setPic(byte[] pic) {
+		this.pic = pic;
 	}
 	public Date getTanggalLahir() {
 		return tanggalLahir;
@@ -105,6 +114,7 @@ public class AnggotaForm {
 		result = prime * result + ((keanggotaan == null) ? 0 : keanggotaan.hashCode());
 		result = prime * result + ((kontak == null) ? 0 : kontak.hashCode());
 		result = prime * result + ((nama == null) ? 0 : nama.hashCode());
+		result = prime * result + Arrays.hashCode(pic);
 		result = prime * result + ((prestasi == null) ? 0 : prestasi.hashCode());
 		result = prime * result + ((prodi == null) ? 0 : prodi.hashCode());
 		result = prime * result + ((tanggalLahir == null) ? 0 : tanggalLahir.hashCode());
@@ -179,6 +189,9 @@ public class AnggotaForm {
 		} else if (!nama.equals(other.nama)) {
 			return false;
 		}
+		if (!Arrays.equals(pic, other.pic)) {
+			return false;
+		}
 		if (prestasi == null) {
 			if (other.prestasi != null) {
 				return false;
@@ -214,6 +227,8 @@ public class AnggotaForm {
 		StringBuilder builder = new StringBuilder();
 		builder.append("AnggotaForm [nama=");
 		builder.append(nama);
+		builder.append(", pic=");
+		builder.append(Arrays.toString(pic));
 		builder.append(", tanggalLahir=");
 		builder.append(tanggalLahir);
 		builder.append(", alamat=");
