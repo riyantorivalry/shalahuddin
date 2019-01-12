@@ -13,7 +13,6 @@ Generated project characteristics
 * View Resolver : [Thymeleaf](http://www.thymeleaf.org/)
 * Javascript: [Jquery 1.12.4](http://jquery.com/)
 * Grid/Paging: [Jquery Datatables 1.10.13](http://datatables.net/)
-* Spring Security
 * Spring Data JPA [Spring Data JPA](http://projects.spring.io/spring-data-jpa/)
 * MongoDB (Spring Data Mongo)
 * JUnit/Mockito
@@ -76,22 +75,7 @@ Signin using this:
 
 Note: No additional services are required in order to start the application. Mongo DB configuration is in place but it is not used in the code.
 
-Enabling MongoDB repositories
------------------------------
 
-* Open MongoConfig class and uncomment the following line:
-
-```
-// @EnableMongoRepositories(basePackageClasses = Application.class)
-```
-
-Now you can add repositories to your project:
-
-```
-@Repository
-public interface MyRepository extends MongoRepository<MyDocument, String> {
-
-}
 ```
 
 Reference
