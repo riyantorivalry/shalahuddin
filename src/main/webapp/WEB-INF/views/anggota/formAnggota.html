@@ -57,9 +57,14 @@
                 <div class="form-group form-group-sm">
                     <label for="departemenId" 
                         class="col-xs-12 col-sm-3 col-md-3 control-label">Departemen</label>
-                    <div class="col-xs-12 col-sm-9 col-md-8">
-                        <input type="text" class="form-control" th:field="*{departemenId}" 
-                            placeholder="Departemen">
+					<div class="col-xs-12 col-sm-9 col-md-8" th:field="*{listComboDto}>
+                         <select class="form-control"  >
+							<option value="">Pilih Departemen</option>
+							<option th:each="listComboDto :${listDepartemen}"
+									th:value="${listComboDto.id}"
+									th:text="${listComboDto.id} +':'+${listComboDto.nama}">
+							</option>
+						</select>		
                     </div>
                 </div>
                 <div class="form-group form-group-sm">

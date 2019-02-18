@@ -1,9 +1,11 @@
 package com.shalahuddin.web.form;
 
 import java.sql.Date;
+import java.util.Arrays;
 
 public class PenceramahForm {
 	private String nama;
+	private byte[] pic;
 	private String bidangKajian;
 	private String alamat;
 	private String kontak;
@@ -16,10 +18,11 @@ public class PenceramahForm {
 		super();
 	}
 
-	public PenceramahForm(String nama, String bidangKajian, String alamat, String kontak, String email, Long riwayatId,
-			String catatan, Date updateDate) {
+	public PenceramahForm(String nama, byte[] pic, String bidangKajian, String alamat, String kontak, String email,
+			Long riwayatId, String catatan, Date updateDate) {
 		super();
 		this.nama = nama;
+		this.pic = pic;
 		this.bidangKajian = bidangKajian;
 		this.alamat = alamat;
 		this.kontak = kontak;
@@ -35,6 +38,14 @@ public class PenceramahForm {
 
 	public void setNama(String nama) {
 		this.nama = nama;
+	}
+
+	public byte[] getPic() {
+		return pic;
+	}
+
+	public void setPic(byte[] pic) {
+		this.pic = pic;
 	}
 
 	public String getBidangKajian() {
@@ -103,6 +114,7 @@ public class PenceramahForm {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((kontak == null) ? 0 : kontak.hashCode());
 		result = prime * result + ((nama == null) ? 0 : nama.hashCode());
+		result = prime * result + Arrays.hashCode(pic);
 		result = prime * result + ((riwayatId == null) ? 0 : riwayatId.hashCode());
 		result = prime * result + ((updateDate == null) ? 0 : updateDate.hashCode());
 		return result;
@@ -162,6 +174,9 @@ public class PenceramahForm {
 		} else if (!nama.equals(other.nama)) {
 			return false;
 		}
+		if (!Arrays.equals(pic, other.pic)) {
+			return false;
+		}
 		if (riwayatId == null) {
 			if (other.riwayatId != null) {
 				return false;
@@ -184,6 +199,8 @@ public class PenceramahForm {
 		StringBuilder builder = new StringBuilder();
 		builder.append("PenceramahForm [nama=");
 		builder.append(nama);
+		builder.append(", pic=");
+		builder.append(Arrays.toString(pic));
 		builder.append(", bidangKajian=");
 		builder.append(bidangKajian);
 		builder.append(", alamat=");
