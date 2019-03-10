@@ -29,7 +29,7 @@
 	  <li class="active">Form Anggota</li> 
 	</ol>
 	<h1 th:text="#{anggota.form.title}">Form Anggota</h1>
-	<form class:"form-narrow form-horizontal" method="post" action="#"
+	<form class:"form-narrow form-horizontal" method="post" action="#" enctype="multipart/form-data"
 		th:action="@{/anggota/saveAnggota}"
 		th:object="${anggota}" th:fragment="anggotaForm">
 		<input type="hidden" th:field="*{idAnggota}" />
@@ -54,14 +54,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+               <div class="form-group form-group-sm">
                     <label for="departemenId" 
                         class="col-xs-12 col-sm-3 col-md-3 control-label">Departemen</label>
                     <div class="col-xs-12 col-sm-9 col-md-8">
-                        <input type="text" class="form-control" th:field="*{departemenId}" 
-                            placeholder="Departemen">
+                     <!--  <input type="text" class="form-control" th:field="*{departemenId}" 
+                            placeholder="Departemen"> -->
+							<select class="form-control" th:field="*{departemenId}">
+								<option th:each = "operator : ${listDepartemen}" th:value="${operator.id}" th:text="${operator.nama}"></option>
+							</select>
                     </div>
-                </div>
+                </div>  
                 <div class="form-group form-group-sm">
                     <label for="prodi" 
                             class="col-xs-12 col-sm-3 col-md-3 control-label">Prodi</label>
@@ -116,6 +119,16 @@
                              placeholder="Keanggotaan">
                     </div>
                 </div>
+                <div class="form-group form-group-sm">
+                    <label for="pic"
+                    class="col-xs-12 col-sm-3 col-md-3 control-label">Foto</label>
+                    <div class="col-xs-12 col-sm-9 col-md-8">
+                        <input type="file" accept=""class="form-control" th:field="*{pic}"
+                             placeholder="Foto">
+                    </div>
+                </div>
+            </br>
+        </br>
                 <div class="form-group form-group-sm">
                     <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8">
                         <a href="form" th:href="@{/anggota/listAnggota}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true">&nbsp;Tunda</span></a>

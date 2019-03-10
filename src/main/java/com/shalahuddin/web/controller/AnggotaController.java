@@ -29,8 +29,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shalahuddin.web.dto.ListComboDto;
 import com.shalahuddin.web.model.Anggota;
 import com.shalahuddin.web.repository.AnggotaRepository;
+import com.shalahuddin.web.repository.ListComboRepository;
 import com.shalahuddin.web.support.web.Ajax;
 import com.shalahuddin.web.support.web.MessageHelper;
 
@@ -46,6 +48,9 @@ public class AnggotaController {
 
 	@Autowired
 	AnggotaRepository anggotaRepo;
+
+	@Autowired
+	ListComboRepository listComboRepo;
 
 	@InitBinder // show Date in "dd-MM-yyyy" format
 	private void dateBinder(WebDataBinder binder2) {
@@ -70,6 +75,12 @@ public class AnggotaController {
 	//
 	//		}
 	//	}
+
+	@ModelAttribute("listDepartemen")
+	public List<ListComboDto> listDepartemen() {
+		List<ListComboDto> list = listComboRepo.findDepartmentName();
+		return list;
+	}
 
 	@GetMapping({ " ", "listAnggota" })
 	public String list(Model model) {

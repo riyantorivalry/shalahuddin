@@ -148,4 +148,10 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
 			return "forward:/resources/images/favicon.ico";
 		}
 	}
+
+	//	@Bean
+	//	public DepartemenFormater departemenFormatter() {
+	//		return new DepartemenFormatter();
+	//	}
+
 }

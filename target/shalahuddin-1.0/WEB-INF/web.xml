@@ -6,7 +6,7 @@
   </listener>
   <listener>
     <description>HibernatePersistenceProvider listener</description>
-    <listener-class>com.github.springmvc.config.HibernateContextListener</listener-class>
+    <listener-class>com.shalahuddin.web.config.HibernateContextListener</listener-class>
   </listener>
   <listener>
     <description>Register a RequestContextListener so that Spring can inject the current HTTPSession</description>

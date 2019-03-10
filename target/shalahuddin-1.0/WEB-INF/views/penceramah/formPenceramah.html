@@ -48,7 +48,7 @@
 			<div class="col-xs-12 col-sm-9 col-md-8">
 				<input type="text" class="form-control" th:field="*{bidangKajian}"
 					placeholder="Bidang Kajian">
-			</div>
+			</div>  
 		</div>
 		<div class="form-group form-group-sm">
 			<label for="alamat"
@@ -56,6 +56,16 @@
 			<div class="col-xs-12 col-sm-9 col-md-8">
 				<input type="text" class="form-control" th:field="*{alamat}"
 					placeholder="Alamat">
+			</div>
+		</div>
+		<div class="form-group form-group-sm">
+			<label for="alamat"
+				class="col-xs-12 col-sm-3 col-md-3 control-label">Alamat2</label>
+			<div class="col-xs-12 col-sm-9 col-md-8">
+				<select th:field="*{alamat}">
+								<option th:value="'M'" th:text="Male"></option>
+								<option th:value="'F'" th:text="Female"></option>
+							</select>
 			</div>
 		</div>
 				<div class="form-group form-group-sm">
@@ -81,7 +91,15 @@
             	<textarea id="catatan" rows="3" class="form-control" placeholder="Catatan" th:field="*{catatan}"></textarea>                
 			</div>
 		</div>
-		       <div class="form-group form-group-sm">
+		<div class="form-group form-group-sm">
+                <label for="pic"
+                class="col-xs-12 col-sm-3 col-md-3 control-label">Foto</label>
+                <div class="col-xs-12 col-sm-9 col-md-8">
+                    <input type="file" accept=""class="form-control" th:field="*{pic}"
+                             placeholder="Foto">
+                </div>
+        </div>
+		<div class="form-group form-group-sm">
             <div class="col-sm-offset-3 col-md-offset-3 col-xs-12 col-sm-9 col-md-8"> 
             	<a href="form" th:href="@{/penceramah/listPenceramah}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true">&nbsp;Tunda</span></a>
                 <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok" aria-hidden="true" >Buat/Perbarui</span></button>
