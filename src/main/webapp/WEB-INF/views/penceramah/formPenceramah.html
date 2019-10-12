@@ -29,7 +29,7 @@
 	  <li class="active">Form Penceramah</li> 
 	</ol>
 	<h1 th:text="#{penceramah.form.title}">Form Penceramah</h1>
-	<form class:"form-narrow form-horizontal" method="post" action="#"
+	<form class:"form-narrow form-horizontal" method="post" action="#"  enctype="multipart/form-data"
 		th:action="@{/penceramah/savePenceramah}"
 		th:object="${penceramah}" th:fragment="penceramahForm">
 		<input type="hidden" th:field="*{idPenceramah}" />

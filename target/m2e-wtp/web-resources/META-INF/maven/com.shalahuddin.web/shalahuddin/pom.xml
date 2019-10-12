@@ -26,7 +26,7 @@
 		<skipTests>true</skipTests>
 		<!-- DATABASE properties -->
 		<db.name>springmvc</db.name>
-		<hbm2ddl>create</hbm2ddl>
+		<hbm2ddl>update</hbm2ddl>
 		<hibernate.show_sql>true</hibernate.show_sql>
 		<hibernate.format_sql>true</hibernate.format_sql>
 		<hibernate.use_sql_comments>true</hibernate.use_sql_comments>

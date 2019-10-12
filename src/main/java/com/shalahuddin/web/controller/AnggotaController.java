@@ -69,13 +69,6 @@ public class AnggotaController {
 
 	}
 
-	//	@PostMapping("anggota/upload")
-	//	public String uploadMultipartFile(@RequestParam("uploadPic") MultipartFile file) {
-	//		try {
-	//
-	//		}
-	//	}
-
 	@ModelAttribute("listDepartemen")
 	public List<ListComboDto> listDepartemen() {
 		List<ListComboDto> list = listComboRepo.findDepartmentName();
